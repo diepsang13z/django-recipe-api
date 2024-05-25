@@ -23,7 +23,7 @@ services:
   db:
     image: postgres:15-alpine
     volumes:
-      - dev-db-data:/var/lib/postgresql/data
+      - dev-db-data:/var/lib/postgresql/data # mapping dir in container to local - to persistent data
     environment: # to set the init db config for new db service
       - POSTGRES_DB=devdb
       - POSTGRES_USER=devuser
