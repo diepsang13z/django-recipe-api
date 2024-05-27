@@ -13,7 +13,9 @@ class UserManager(BaseUserManager):
     """Manager for users."""
 
     def create_user(self, email, password=None, **extra_fields):
-        user = self.model(email=email, **extra_fields)
+        normalize_email = self.normalize_email(email)
+
+        user = self.model(email=normalize_email, **extra_fields)
         user.set_password(password)
         user.save(using=self._db)
 
