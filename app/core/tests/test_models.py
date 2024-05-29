@@ -1,7 +1,6 @@
 """
 Test for models
 """
-from unittest.mock import patch
 from decimal import Decimal
 
 from django.test import TestCase
