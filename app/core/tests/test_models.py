@@ -8,7 +8,8 @@ from django.contrib.auth import get_user_model
 
 from core.models import (
     Recipe,
-    Tag
+    Tag,
+    Ingredient,
 )
 
 
@@ -85,3 +86,13 @@ class ModelTest(TestCase):
         )
 
         self.assertEqual(str(tag), tag.name)
+
+    def test_create_ingredient(self):
+        """Test creating a ingredient is successful."""
+        user = create_user()
+        ingredient = Ingredient.objects.create(
+            user=user,
+            name='Ingredient'
+        )
+
+        self.assertEqual(str(ingredient), ingredient.name)
