@@ -3,13 +3,14 @@ version: '3.9'
 services:
   app:
     build:
-      context: . # use current dir
+      context: .
       args:
         - DEV=true
     ports:
-      - "8000:8000" # mapping port 8000 local nachine to port 8000 inside Docker container
+      - "8000:8000"
     volumes:
-      - ./app:/app # mapping the app dir that created in the project to Ford's hash app inside Docker container
+      - ./app:/app
+      - dev-static-data:/vol/web
     command: >
       sh -c "python manage.py wait_for_db &&
              python manage.py migrate &&
@@ -26,8 +27,8 @@ services:
   db:
     image: postgres:16-alpine
     volumes:
-      - dev-db-data:/var/lib/postgresql/data # mapping dir in container to local - to persistent data
-    environment: # to set the init db config for new db service
+      - dev-db-data:/var/lib/postgresql/data
+    environment:
       - POSTGRES_DB=devdb
       - POSTGRES_USER=devuser
       - POSTGRES_PASSWORD=123123
@@ -36,3 +37,4 @@ services:
 
 volumes:
   dev-db-data:
+  dev-static-data:
