@@ -1,6 +1,8 @@
 """
 Views for the recipe APIs.
 """
+from django.db.models import Q
+
 from rest_framework import (
     viewsets,
     mixins,
@@ -34,10 +36,22 @@ class RecipeViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         """Retrieve recipes for authenticated user"""
+        tags = self.request.query_params.get('tags')
+        ingredients = self.request.query_params.get('ingredients')
+
+        query = Q(user=self.request.user)
+        if tags:
+            tag_ids = self._params_to_ints(tags)
+            query &= Q(tags__id__in=tag_ids)
+        if ingredients:
+            ingredient_ids = self._params_to_ints(ingredients)
+            query &= Q(ingredients__id__in=ingredient_ids)
+
         queryset = (
             Recipe.objects
-            .filter(user=self.request.user)
+            .filter(query)
             .order_by('-id')
+            .distinct()
         )
         return queryset
 
@@ -65,6 +79,11 @@ class RecipeViewSet(viewsets.ModelViewSet):
             return Response(serializer.data, status=status.HTTP_200_OK)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    # Private
+    def _params_to_ints(self, qs):
+        """Convert a list of string to integers."""
+        return [int(str_id) for str_id in qs.split(',')]
 
 
 class BaseRecipeAttrViewSet(mixins.ListModelMixin,
