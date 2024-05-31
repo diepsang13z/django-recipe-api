@@ -22,6 +22,8 @@ from django.urls import path, include
 from django.conf.urls.static import static
 from django.conf import settings
 
+from core import views as core_view
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     # Generate the schema for our API (YAML)
@@ -32,6 +34,7 @@ urlpatterns = [
         SpectacularSwaggerView.as_view(url_name='api-schema'),
         name='api-docs',
     ),
+    path('api/health-check/', core_view.health_check, name='health-check'),
     path('api/user/', include('user.urls')),
     path('api/recipe/', include('recipe.urls')),
 ]
