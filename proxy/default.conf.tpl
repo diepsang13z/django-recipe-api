@@ -1,12 +1,12 @@
 server {
-    liten ${LITEN_PORT};
+    listen ${LISTEN_PORT};
 
-    localtion /static {
+    location /static {
         alias /vol/static;
     }
 
-    localtion / {
-        uwsgi_pass              ${APP_HOST}:${APP_POST};
+    location / {
+        uwsgi_pass              ${APP_HOST}:${APP_PORT};
         include                 /etc/nginx/uwsgi_params;
         client_max_body_size    10M;
     }
