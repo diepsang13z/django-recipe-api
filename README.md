@@ -1,4 +1,4 @@
-# Personal Project: Djagno Recipe API
+# Personal Project: Django Recipe API
 
 ## Description
 
@@ -6,7 +6,7 @@ Recipe API is a REST API backend system developed in Python, Django (4.0), and D
 
 ## Installation Instructions
 ```
-# Step 1: Create and config .env file according to .envsample template
+# Step 1: Create and config .env file according to .env.sample template
 cp .env.sample .env
 
 # Step 2: Build and run app with docker-compose
